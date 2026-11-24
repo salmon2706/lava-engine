@@ -57,6 +57,15 @@ export function makeModel(bundle) {
   }
 
   const outside = data.concepts.filter((c) => !c.spine);
+  const evidence = [...bundle.evidence.items].sort((a, b) => b.date.localeCompare(a.date));
+
+  function evidenceFor(spineId) {
+    return evidence.filter((e) => e.nodes.includes(spineId));
+  }
+
+  function sites() {
+    return [...new Set(evidence.map((e) => e.site))];
+  }
 
   return {
     bundle,
@@ -80,5 +89,8 @@ export function makeModel(bundle) {
     hops,
     chainsWith,
     attention,
+    evidence,
+    evidenceFor,
+    sites,
   };
 }

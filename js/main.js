@@ -1,13 +1,14 @@
-import { deriveKey, forgetKey, keepKey, keptKey, openSealed } from "./crypto.js?v=20261124101623";
-import { h } from "./dom.js?v=20261124101623";
-import { makeModel } from "./model.js?v=20261124101623";
-import { closeSheet } from "./sheet.js?v=20261124101623";
-import { whyView } from "./views/why.js?v=20261124101623";
-import { peopleView } from "./views/people.js?v=20261124101623";
-import { engineView } from "./views/engine.js?v=20261124101623";
-import { loopView } from "./views/loop.js?v=20261124101623";
-import { dayView } from "./views/day.js?v=20261124101623";
-import { useView } from "./views/use.js?v=20261124101623";
+import { deriveKey, forgetKey, keepKey, keptKey, openSealed } from "./crypto.js?v=20261124124457";
+import { h } from "./dom.js?v=20261124124457";
+import { makeModel } from "./model.js?v=20261124124457";
+import { closeSheet } from "./sheet.js?v=20261124124457";
+import { whyView } from "./views/why.js?v=20261124124457";
+import { peopleView } from "./views/people.js?v=20261124124457";
+import { engineView } from "./views/engine.js?v=20261124124457";
+import { loopView } from "./views/loop.js?v=20261124124457";
+import { dayView } from "./views/day.js?v=20261124124457";
+import { useView } from "./views/use.js?v=20261124124457";
+import { nextView } from "./views/next.js?v=20261124124457";
 
 /* Boot: fetch the sealed bundle, open it with a kept key or the password,
    then route on the hash. Nothing readable exists until decryption works. */
@@ -19,6 +20,7 @@ const ROUTES = [
   ["loop", "The loop", loopView],
   ["day", "The day", dayView],
   ["use", "Use it", useView],
+  ["next", "Keep building", nextView],
 ];
 
 const $ = (id) => document.getElementById(id);

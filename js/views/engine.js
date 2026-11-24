@@ -1,5 +1,5 @@
-import { h, plural, ROLE_ORDER, ROLES, viewHead } from "../dom.js?v=20261124101623";
-import { attentionBadge, openNode } from "./evidence.js?v=20261124101623";
+import { h, plural, ROLE_ORDER, ROLES, viewHead } from "../dom.js?v=20261124124457";
+import { attentionBadge, openNode } from "./evidence.js?v=20261124124457";
 
 /* The four columns. Each card is one engine node: what it is in a line,
    how much of the room's evidence sits behind it (bars), and whether anyone

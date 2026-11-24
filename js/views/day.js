@@ -1,5 +1,5 @@
-import { h, plural, ROLES, viewHead } from "../dom.js?v=20261124101623";
-import { openNode } from "./evidence.js?v=20261124101623";
+import { h, plural, ROLES, viewHead } from "../dom.js?v=20261124124457";
+import { openNode } from "./evidence.js?v=20261124124457";
 
 /* The day, replayed. Every one of the 51 steps exactly as it happened: the
    word on the screen, every word the room offered under it, who said each,

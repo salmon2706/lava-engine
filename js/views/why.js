@@ -1,10 +1,10 @@
-import { h, rolePill, ROLES } from "../dom.js?v=20261124101623";
-import { nodeChip } from "./evidence.js?v=20261124101623";
+import { h, rolePill, ROLES } from "../dom.js?v=20261124124457";
+import { nodeChip } from "./evidence.js?v=20261124124457";
 
 /* The front door. Answers the question the team keeps asking (why did we
    do that day?) in the order a sceptic would ask it: what problem, what
-   happened, what came out, where it has already been used, what went wrong,
-   and what we do with it now. Counts come from the data, not the prose. */
+   happened, what came out, where it has already been used, how it keeps
+   growing, and what we do with it now. Counts come from the data, not the prose. */
 
 export function whyView(root, model) {
   const st = model.story;
@@ -36,8 +36,14 @@ export function whyView(root, model) {
       h("p", { class: "block-intro" }, st.used.intro),
       h("div", { class: "used" }, st.used.items.map(([id]) => usedCard(model, model.decisions.get(id))))),
 
-    h("section", { class: "honest card" },
-      h("h2", {}, st.honest.heading), h("p", {}, st.honest.body)),
+    h("section", { class: "part1 card" },
+      h("div", { class: "eyebrow" }, st.part1.eyebrow),
+      h("h2", {}, st.part1.heading),
+      h("p", {}, st.part1.body),
+      h("div", { class: "part1-stats" },
+        bigStat(model.evidence.length, "site findings"), bigStat(model.sites().length, "sources"),
+        bigStat(model.decisions.size, "decisions tested")),
+      h("a", { class: "btn primary", href: "#next" }, st.part1.cta)),
 
     block(st.how.heading,
       h("ol", { class: "rules" }, st.how.rules.map((r) => h("li", {}, r))),

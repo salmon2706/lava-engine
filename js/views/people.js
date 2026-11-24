@@ -1,5 +1,5 @@
-import { h, plural, ROLES, viewHead } from "../dom.js?v=20261124101623";
-import { nodeChip, openNode } from "./evidence.js?v=20261124101623";
+import { h, plural, ROLES, viewHead } from "../dom.js?v=20261124124457";
+import { nodeChip, openNode } from "./evidence.js?v=20261124124457";
 
 /* You built it. Pick your name: your words, which parts of the engine they
    feed, and which of them the room chose to follow. The point is ownership:

@@ -1,5 +1,5 @@
-import { h, s, ROLES } from "../dom.js?v=20261124101623";
-import { openHop, openNode } from "./evidence.js?v=20261124101623";
+import { h, s, ROLES } from "../dom.js?v=20261124124457";
+import { openHop, openNode } from "./evidence.js?v=20261124124457";
 
 /* A loop chain drawn as a wheel. Coordinates live in a fixed 760 by 640
    box; nodes are HTML placed by percentage over one SVG of arcs, so text

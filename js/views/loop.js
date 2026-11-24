@@ -1,6 +1,6 @@
-import { h, plural, viewHead } from "../dom.js?v=20261124101623";
-import { nodeChip, openHop } from "./evidence.js?v=20261124101623";
-import { wheel } from "./wheel.js?v=20261124101623";
+import { h, plural, viewHead } from "../dom.js?v=20261124124457";
+import { nodeChip, openHop } from "./evidence.js?v=20261124124457";
+import { wheel } from "./wheel.js?v=20261124124457";
 
 /* Chains of reasoning. Each one is a path the room actually walked: the
    build refuses any hop nobody walked. Loops draw as a wheel, straight

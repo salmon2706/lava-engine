@@ -1,11 +1,11 @@
-import { h, plural, ROLE_ORDER, ROLES, viewHead } from "../dom.js?v=20261124101623";
-import { nodeChip } from "./evidence.js?v=20261124101623";
-import { proposalLine, RULE, verdict } from "./verdict.js?v=20261124101623";
-import { slug } from "./why.js?v=20261124101623";
+import { h, plural, ROLE_ORDER, ROLES, viewHead } from "../dom.js?v=20261124124457";
+import { findingCard, nodeChip } from "./evidence.js?v=20261124124457";
+import { proposalLine, RULE, verdict } from "./verdict.js?v=20261124124457";
+import { slug } from "./why.js?v=20261124124457";
 
-/* Use it. The four questions, run on a real decision. Worked examples are
-   the calls in the 22nd November board note, with our own verdict; "Your
-   own" runs the written rule on whatever parts you tick. */
+/* Use it. The four questions, run on a real decision. Worked examples carry
+   our own verdict; "Your own" runs the written rule on whatever parts you
+   tick. */
 
 const QUESTIONS = [
   "Which part of the engine does it strengthen?",
@@ -77,6 +77,7 @@ function answer(model, ids, example, titleText) {
   const line = proposalLine(model, ids, { ...v, verdict: shown });
   const st = ids.map((id) => model.stats(id));
   const words = st.reduce((t, x) => t + x.words, 0);
+  const findings = model.evidence.filter((e) => e.nodes.some((n) => ids.includes(n)));
   return h("div", { class: "card answer-card fade-in" },
     h("span", { class: `verdict v-${slug(shown)}` }, shown),
     h("h2", {}, titleText || "Your decision"),
@@ -88,9 +89,10 @@ function answer(model, ids, example, titleText) {
       : null,
     h("ul", { class: "reasons" }, v.reasons.map((r) => h("li", {}, r)))),
     q(3, h("p", {}, ids.length
-      ? `${plural(words, "word")} from the room behind these parts.`
+      ? `${plural(words, "word")} from the room behind these parts. ${findings.length ? plural(findings.length, "finding") : "Nothing yet"} from real sites.`
       : "No room evidence until a part is ticked."),
-    example ? h("p", { class: "since" }, h("strong", {}, "Since the day: "), example.evidence) : null),
+    findings.map((e) => findingCard(model, e)),
+    example && !findings.length ? h("p", { class: "since" }, h("strong", {}, "Since the day: "), example.evidence) : null),
     q(4, v.warn
       ? h("div", { class: "check-card" },
         h("div", { class: "eyebrow" }, `David's check`),

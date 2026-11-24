@@ -1,5 +1,5 @@
-import { h, plural, rolePill, ROLES } from "../dom.js?v=20261124101623";
-import { openSheet } from "../sheet.js?v=20261124101623";
+import { h, plural, rolePill, ROLES } from "../dom.js?v=20261124124457";
+import { openSheet } from "../sheet.js?v=20261124124457";
 
 /* Evidence, shown the same way everywhere: the actual morning phrase
    (parent word, then the word said under it), who said it, and the votes it
@@ -46,6 +46,10 @@ export function openNode(model, id) {
     h("div", { class: "sheet-stats" },
       stat(st.words, "words"), stat(st.votes, "votes"), stat(st.people, "of 5 people")),
     h("p", { class: "attn-note" }, h("strong", {}, "Today: "), a.note),
+    section("From real sites since",
+      model.evidenceFor(id).length
+        ? model.evidenceFor(id).map((e) => findingCard(model, e, id))
+        : h("p", { class: "muted" }, "Only the room's words so far. The first site that proves or disproves this part goes here.")),
     section("In the room's words",
       model.concepts(id).map((c) => conceptBlock(model, c, n.role))),
     touching.length ? section("Walked to and from",
@@ -74,6 +78,22 @@ export function openHop(model, a, b) {
         : "Nobody walked this link on the day."),
     phraseList(phrases),
   ));
+}
+
+export function findingCard(model, e, except) {
+  const others = e.nodes.filter((n) => n !== except);
+  return h("div", { class: `finding reads-${e.reads}` },
+    h("div", { class: "finding-head" },
+      h("span", { class: "finding-mark" }, e.reads === "for" ? "For" : "Against"),
+      h("strong", {}, e.site),
+      h("span", { class: "finding-date" }, monthLabel(e.date))),
+    h("p", {}, e.note),
+    others.length ? h("div", { class: "finding-nodes" }, others.map((n) => nodeChip(model, n))) : null);
+}
+
+export function monthLabel(ym) {
+  const [y, m] = ym.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
 }
 
 function stat(n, label) {
