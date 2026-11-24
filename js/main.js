@@ -1,30 +1,12 @@
-import { deriveKey, forgetKey, keepKey, keptKey, openSealed } from "./crypto.js?v=20261124124457";
-import { h } from "./dom.js?v=20261124124457";
-import { makeModel } from "./model.js?v=20261124124457";
-import { closeSheet } from "./sheet.js?v=20261124124457";
-import { whyView } from "./views/why.js?v=20261124124457";
-import { peopleView } from "./views/people.js?v=20261124124457";
-import { engineView } from "./views/engine.js?v=20261124124457";
-import { loopView } from "./views/loop.js?v=20261124124457";
-import { dayView } from "./views/day.js?v=20261124124457";
-import { useView } from "./views/use.js?v=20261124124457";
-import { nextView } from "./views/next.js?v=20261124124457";
+import { deriveKey, forgetKey, keepKey, keptKey, openSealed } from "./crypto.js?v=20261124130956";
+import { h } from "./dom.js?v=20261124130956";
+import { engine, helps, hero, loop } from "./sections/engine.js?v=20261124130956";
+import { compare, grows, targets, today } from "./sections/targets.js?v=20261124130956";
 
-/* Boot: fetch the sealed bundle, open it with a kept key or the password,
-   then route on the hash. Nothing readable exists until decryption works. */
-
-const ROUTES = [
-  ["why", "Why", whyView],
-  ["you", "You built it", peopleView],
-  ["engine", "The engine", engineView],
-  ["loop", "The loop", loopView],
-  ["day", "The day", dayView],
-  ["use", "Use it", useView],
-  ["next", "Keep building", nextView],
-];
+/* Boot: fetch the sealed page, open it with a kept key or the password,
+   then draw one simple page. Nothing readable exists until decryption works. */
 
 const $ = (id) => document.getElementById(id);
-let model = null;
 
 async function boot() {
   const local = ["localhost", "127.0.0.1"].includes(location.hostname);
@@ -33,7 +15,7 @@ async function boot() {
     if (preview?.ok) return start(await preview.json());
   }
   const res = await fetch("data.enc", { cache: "no-store" });
-  if (!res.ok) return fail("This site could not load its data. Refresh to try again.");
+  if (!res.ok) return fail("This site could not load. Refresh to try again.");
   const sealed = await res.json();
   const key = await keptKey(sealed).catch(() => null);
   if (key) {
@@ -79,42 +61,16 @@ function fail(message) {
 }
 
 function start(bundle) {
-  model = makeModel(bundle);
+  const p = bundle.page;
   $("app").hidden = false;
-  $("nav").replaceChildren(...ROUTES.map(([id, label]) => h("a", { href: `#${id}`, "data-route": id }, label)));
   $("lock-out").addEventListener("click", () => {
     forgetKey();
-    location.hash = "";
     location.reload();
   });
-  window.addEventListener("hashchange", render);
-  render();
-}
-
-function render() {
-  const [route, arg] = location.hash.replace(/^#/, "").split("/");
-  const found = ROUTES.find(([id]) => id === route) ?? ROUTES[0];
-  closeSheet();
-  document.querySelectorAll("[data-route]").forEach((a) => {
-    if (a.dataset.route === found[0]) a.setAttribute("aria-current", "page");
-    else a.removeAttribute("aria-current");
-  });
-  const view = h("div", { class: "view fade-in" });
-  found[2](view, model, arg ? decodeURIComponent(arg) : null);
-  view.append(
-    h("footer", { class: "foot" },
-      `Built from the 16th September session record on ${ordinalDate(model.meta.built)}. Every word, vote and link is the room's own.`),
-  );
-  $("view").replaceChildren(view);
-  window.scrollTo({ top: 0 });
-  document.title = `${found[1]} · Lava Labs`;
-}
-
-function ordinalDate(iso) {
-  const d = new Date(iso);
-  const n = d.getDate();
-  const suffix = n % 10 === 1 && n !== 11 ? "st" : n % 10 === 2 && n !== 12 ? "nd" : n % 10 === 3 && n !== 13 ? "rd" : "th";
-  return `${n}${suffix} ${d.toLocaleDateString("en-GB", { month: "long", year: "numeric" })}`;
+  $("view").replaceChildren(h("div", { class: "page fade-in" },
+    hero(p), engine(p), loop(p), helps(p), today(p), targets(p), compare(p), grows(p),
+    h("footer", { class: "foot" }, `Lava Labs. Updated ${bundle.meta.updated}.`)));
+  document.title = "The engine · Lava Labs";
 }
 
 boot();
