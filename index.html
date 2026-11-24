@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Lava Labs</title>
+    <link rel="stylesheet" href="css/base.css?v=20261124101623" />
+    <link rel="stylesheet" href="css/shell.css?v=20261124101623" />
+    <link rel="stylesheet" href="css/story.css?v=20261124101623" />
+    <link rel="stylesheet" href="css/engine.css?v=20261124101623" />
+    <link rel="stylesheet" href="css/loop.css?v=20261124101623" />
+    <link rel="stylesheet" href="css/day.css?v=20261124101623" />
+    <link rel="stylesheet" href="css/use.css?v=20261124101623" />
+  </head>
+  <body>
+    <div id="lock" class="lock" hidden>
+      <form class="lock-card card fade-in" id="lock-form" autocomplete="off">
+        <img src="assets/lava-labs-logo.png" alt="Lava Labs" />
+        <h1>Team only</h1>
+        <p>Enter the team password to open.</p>
+        <input id="lock-pw" type="password" placeholder="Password" aria-label="Password" autofocus />
+        <button class="btn primary" type="submit" id="lock-go">Open</button>
+        <label class="lock-remember"><input type="checkbox" id="lock-keep" /> Keep me signed in on this device</label>
+        <div class="lock-error" id="lock-error" role="alert"></div>
+      </form>
+    </div>
+
+    <div id="app" hidden>
+      <header class="top">
+        <img class="logo" src="assets/lava-labs-logo.png" alt="Lava Labs" />
+        <nav class="nav" id="nav"></nav>
+        <button class="btn" type="button" id="lock-out">Lock</button>
+      </header>
+      <main id="view"></main>
+    </div>
+
+    <div id="sheet" class="sheet" hidden>
+      <div class="sheet-scrim" data-close></div>
+      <aside class="sheet-panel" role="dialog" aria-modal="true">
+        <button class="sheet-x" type="button" data-close aria-label="Close">×</button>
+        <div id="sheet-body"></div>
+      </aside>
+    </div>
+
+    <script type="module" src="js/main.js?v=20261124101623"></script>
+  </body>
+</html>
